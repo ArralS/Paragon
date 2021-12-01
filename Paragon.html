@@ -1,0 +1,50 @@
+<title>Paragon</title>
+<style media = "screen">
+
+</style>
+
+<body>
+<h2 id="title">Paragon</h2>
+<fieldset>
+    <legend>Lista Zakupów</legend>
+    <div class="LsOutput"></div>
+</fieldset>
+</body>
+
+<script>
+//const LsOutput = document.getElementById("LsOutput");
+
+let myObj1={
+    lp: 1,
+    name: "Chipsy",
+    count: 3,
+    prize: 37
+};
+
+let myObj2={
+    lp: 2,
+    name: "Cola",
+    Count: 1,
+    prize: 12
+};
+
+let myObj3={
+    lp: 3,
+    name: "Bread",
+    Count: 2,
+    prize: 133
+};
+
+let myObj1S= JSON.stringify(myObj1);
+let myObj2S= JSON.stringify(myObj2);
+let myObj3S= JSON.stringify(myObj3);
+
+localStorage.setItem("myObj1",myObj1S);
+localStorage.setItem("myObj2",myObj2S);
+localStorage.setItem("myObj3",myObj3S);
+
+//let myObj1D= JSON.parse(localStorage.getItem("myObj1"));
+
+localStorage.removeItem("myObj1");
+console.log(localStorage);
+</script>
