@@ -35,7 +35,7 @@
 
 // Pierwsze uruchomienie , po drugim elementy są już przechowywawane w local storage.
 /*let myObj1={
-    lp: 1,
+    LP: 0 ,
     name: "Chipsy",
     count: 3,
     prize: 37,
@@ -43,7 +43,7 @@
 };
 //<div class="LsOutput"></div>
 let myObj2={
-    lp: 2,
+    LP: 0,
     name: "Cola",
     count: 1,
     prize: 12,
@@ -51,7 +51,7 @@ let myObj2={
 };
 
 let myObj3={
-    lp: 3,
+    LP: 0,
     name: "Bread",
     count: 2,
     prize: 133,
@@ -64,14 +64,15 @@ let myObj1S= JSON.stringify(myObj1);
 let myObj2S= JSON.stringify(myObj2);
 let myObj3S= JSON.stringify(myObj3);
 
-localStorage.setItem("1",myObj1S);
-localStorage.setItem("2",myObj2S);
-localStorage.setItem("3",myObj3S);
+localStorage.setItem(0,myObj1S);
+localStorage.setItem(1,myObj2S);
+localStorage.setItem(2,myObj3S);
+
 */
-
-
+//Tabela ze wszystkich elementów paragonu
 var table = document.getElementById("myTable");
 var suma=0;
+var Zakupy = new Array();
 
 for(let i=0;i<localStorage.length;i++){
     const key = localStorage.key(i);
@@ -84,16 +85,22 @@ for(let i=0;i<localStorage.length;i++){
     var Sum = row.insertCell(4);
     ObjD.sum = ObjD.prize*ObjD.count;
     LP.innerHTML = i;
+    ObjD.LP=i;
     Name.innerHTML = ObjD.name;
     Count.innerHTML = ObjD.count;
     Prize.innerHTML = ObjD.prize;
     Sum.innerHTML = ObjD.sum;
     suma+=ObjD.sum;
-   
+    Zakupy[i]=ObjD;
 }
+console.log(Zakupy);
+
 
 var Razem = document.getElementById("razem");
 Razem.innerHTML+=suma;
+//var row2=table.deleteRow(2);
+
+
 
 
 // Usunięcie Elementu: localStorage.removeItem("myObj1");
