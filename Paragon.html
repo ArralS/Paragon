@@ -1,108 +1,44 @@
-<title>Paragon</title>
-<style media = "screen">
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Paragon</title>
+  </head>
+  <body>
+    <h2 id="title">Paragon</h2>
+    <fieldset>
+      <legend>Lista Zakupów</legend>
 
-</style>
+      <table id="myTable">
+        <tr>
+          <th>LP</th>
+          <th>Nazwa</th>
+          <th>Ilość</th>
+          <th>Cena</th>
+          <th>Suma</th>
+        </tr>
 
-<body>
-<h2 id="title">Paragon</h2>
-<fieldset>
-    <legend>Lista Zakupów</legend>
-    
-   
-        <table id="myTable">
-            <tr>
-              <th>LP</th>
-              <th>Nazwa</th>
-              <th>Ilość</th>
-              <th>Cena</th>
-              <th>Suma</th>
-            </tr>
-            
-            <tr>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th>Razem</th>
-              <th id="razem"></th>
-            </tr>
-          </table>
-          
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th>Razem</th>
+          <th id="razem"></th>
+        </tr>
+      </table>
+    </fieldset>
+    Nazwa:
+    <input id="nazwa" type="text" /><br />
+    Ilość:
+    <input id="ilosc" type="text" /><br />
+    Cena:
+    <input id="cena" type="text" /><br />
+    <input id="sub" type="submit" value="Dodaj" onclick="Dodaj()" />
+  </body>
 
-</fieldset>
-</body>
+  <script src="script.js"></script>
+</html>
 
-<script>
-
-// Pierwsze uruchomienie , po drugim elementy są już przechowywawane w local storage.
-/*let myObj1={
-    LP: 0 ,
-    name: "Chipsy",
-    count: 3,
-    prize: 37,
-    sum: 0
-};
-//<div class="LsOutput"></div>
-let myObj2={
-    LP: 0,
-    name: "Cola",
-    count: 1,
-    prize: 12,
-    sum: 0
-};
-
-let myObj3={
-    LP: 0,
-    name: "Bread",
-    count: 2,
-    prize: 133,
-    sum: 0
-};
-
-
-localStorage.clear();
-let myObj1S= JSON.stringify(myObj1);
-let myObj2S= JSON.stringify(myObj2);
-let myObj3S= JSON.stringify(myObj3);
-
-localStorage.setItem(0,myObj1S);
-localStorage.setItem(1,myObj2S);
-localStorage.setItem(2,myObj3S);
-
-*/
-//Tabela ze wszystkich elementów paragonu
-var table = document.getElementById("myTable");
-var suma=0;
-var Zakupy = new Array();
-
-for(let i=0;i<localStorage.length;i++){
-    const key = localStorage.key(i);
-    let ObjD = JSON.parse(localStorage.getItem(key));
-    var row = table.insertRow(i+1);
-    var LP =   row.insertCell(0); 
-    var Name = row.insertCell(1);
-    var Count = row.insertCell(2);
-    var Prize = row.insertCell(3);
-    var Sum = row.insertCell(4);
-    ObjD.sum = ObjD.prize*ObjD.count;
-    LP.innerHTML = i;
-    ObjD.LP=i;
-    Name.innerHTML = ObjD.name;
-    Count.innerHTML = ObjD.count;
-    Prize.innerHTML = ObjD.prize;
-    Sum.innerHTML = ObjD.sum;
-    suma+=ObjD.sum;
-    Zakupy[i]=ObjD;
-}
-console.log(Zakupy);
-
-
-var Razem = document.getElementById("razem");
-Razem.innerHTML+=suma;
-//var row2=table.deleteRow(2);
-
-
-
-
-// Usunięcie Elementu: localStorage.removeItem("myObj1");
-//console.log(localStorage);
-</script>
+<style media="screen"></style>
