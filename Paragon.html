@@ -38,35 +38,7 @@
 
 <script>
 
-    function InicjalizacjaZLocalStorage() {
-        var MyListD = JSON.parse(localStorage.getItem(0));
-       
-        for (let i = 0; i < MyListD.length; i++) {
-               var row = table.insertRow(i + 1);
-                var LP = row.insertCell(0);
-                var Name = row.insertCell(1);
-                var Count = row.insertCell(2);
-                var Prize = row.insertCell(3);
-                var Sum = row.insertCell(4);
-                MyListD[i].sum = MyListD[i].prize * MyListD[i].count;
-                MyListD[i].LP = i + 1;
-                LP.innerHTML = MyListD[i].LP;
-                Name.innerHTML = MyListD[i].name;
-                Count.innerHTML = MyListD[i].count;
-                Prize.innerHTML = MyListD[i].prize;
-                Sum.innerHTML = MyListD[i].sum;
-                suma += MyListD[i].sum;
-
-             
-            
-        }
-        Razem.innerHTML += suma;
-        suma = 0;
-        console.log(MyListD);
-      
-    }
-
-    function InicjalizacjaZLocalStorage() {
+     function InicjalizacjaZLocalStorage() {
    
        
         for (let i = 0; i < MyListD.length; i++) {
@@ -173,7 +145,7 @@
     var Razem = document.getElementById("razem");
        var MyListD = JSON.parse(localStorage.getItem(0));
     InicjalizacjaZLocalStorage();
-  //  Obiekty();
+    Obiekty();
    
 
    
