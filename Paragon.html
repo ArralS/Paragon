@@ -1,103 +1,191 @@
 <title>Paragon</title>
-<style media = "screen">
+<style media="screen">
 
 </style>
 
 <body>
-<h2 id="title">Paragon</h2>
-<fieldset>
-    <legend>Lista Zakupów</legend>
-    
-   
+    <h2 id="title">Paragon</h2>
+    <fieldset>
+        <legend>Lista Zakupów</legend>
+
+
         <table id="myTable">
             <tr>
-              <th>LP</th>
-              <th>Nazwa</th>
-              <th>Ilość</th>
-              <th>Cena</th>
-              <th>Suma</th>
+                <th>LP</th>
+                <th>Nazwa</th>
+                <th>Ilość</th>
+                <th>Cena</th>
+                <th>Suma</th>
             </tr>
-            
-            <tr>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th>Razem</th>
-              <th id="razem"></th>
-            </tr>
-          </table>
-          
 
-</fieldset>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th>Razem</th>
+                <th id="razem"></th>
+            </tr>
+        </table>
+    </fieldset>
+    <fieldset>
+        <legend>Który Wiersz Chcesz Usunąć?</legend>
+        <input id="UInsert" type="text" placeholder="Numer Wiersza">
+        <button id="UBtn" type="button">Usuń</button>
+    </fieldset>
+
+
 </body>
 
 <script>
 
-// Pierwsze uruchomienie , po drugim elementy są już przechowywawane w local storage.
-/*let myObj1={
-    LP: 0 ,
-    name: "Chipsy",
-    count: 3,
-    prize: 37,
-    sum: 0
-};
-//<div class="LsOutput"></div>
-let myObj2={
-    LP: 0,
-    name: "Cola",
-    count: 1,
-    prize: 12,
-    sum: 0
-};
+    function InicjalizacjaZLocalStorage() {
+        var MyListD = JSON.parse(localStorage.getItem(0));
+       
+        for (let i = 0; i < MyListD.length; i++) {
+               var row = table.insertRow(i + 1);
+                var LP = row.insertCell(0);
+                var Name = row.insertCell(1);
+                var Count = row.insertCell(2);
+                var Prize = row.insertCell(3);
+                var Sum = row.insertCell(4);
+                MyListD[i].sum = MyListD[i].prize * MyListD[i].count;
+                MyListD[i].LP = i + 1;
+                LP.innerHTML = MyListD[i].LP;
+                Name.innerHTML = MyListD[i].name;
+                Count.innerHTML = MyListD[i].count;
+                Prize.innerHTML = MyListD[i].prize;
+                Sum.innerHTML = MyListD[i].sum;
+                suma += MyListD[i].sum;
 
-let myObj3={
-    LP: 0,
-    name: "Bread",
-    count: 2,
-    prize: 133,
-    sum: 0
-};
+             
+            
+        }
+        Razem.innerHTML += suma;
+        suma = 0;
+        console.log(MyListD);
+      
+    }
+
+    function InicjalizacjaZLocalStorage() {
+   
+       
+        for (let i = 0; i < MyListD.length; i++) {
+                var row = table.insertRow(i + 1);
+                var LP = row.insertCell(0);
+                var Name = row.insertCell(1);
+                var Count = row.insertCell(2);
+                var Prize = row.insertCell(3);
+                var Sum = row.insertCell(4);
+                MyListD[i].sum = MyListD[i].prize * MyListD[i].count;
+                MyListD[i].LP = i + 1;
+                LP.innerHTML = MyListD[i].LP;
+                Name.innerHTML = MyListD[i].name;
+                Count.innerHTML = MyListD[i].count;
+                Prize.innerHTML = MyListD[i].prize;
+                Sum.innerHTML = MyListD[i].sum;
+                suma += MyListD[i].sum;
+
+             
+            
+        }
+        Razem.innerHTML += suma;
+        suma = 0;
+        console.log(MyListD);
+      
+    }
+
+    function UsuńRekord(key) {
+        
+        if (key > 0 && key <= MyListD.length) {
+            // Uusnięcie elementu z Zakupów
+          MyListD.splice(key - 1, 1);
+            // Nowa Suma
+             row2 = table.deleteRow(key);
+            for (var i = 0; i < MyListD.length; i++) {
+              suma += MyListD[i].sum;
+              MyListD[i].LP=i+1;
+              var row = table.rows[i+1];
+              var cel = row.cells[0];
+            
+              cel.innerHTML=i+1;  
+            }
+            Razem.innerHTML = suma;
+         
+            suma = 0;
+        }
+            console.log(MyListD);
+       MyListS = JSON.stringify(MyListD);
+        localStorage.setItem(0, MyListS );
+      
+    }
+
+    function Obiekty() {
+        let myObj1 = {
+            LP: 0,
+            name: "Chipsy",
+            count: 3,
+            prize: 37,
+            sum: 0
+        };
+        //<div class="LsOutput"></div>
+        let myObj2 = {
+            LP: 0,
+            name: "Cola",
+            count: 1,
+            prize: 12,
+            sum: 0
+        };
+
+        let myObj3 = {
+            LP: 0,
+            name: "Bread",
+            count: 2,
+            prize: 133,
+            sum: 0
+        };
+
+        let myObj4 = {
+            LP: 0,
+            name: "Frytki",
+            count: 2,
+            prize: 18,
+            sum: 0
+        };
 
 
-localStorage.clear();
-let myObj1S= JSON.stringify(myObj1);
-let myObj2S= JSON.stringify(myObj2);
-let myObj3S= JSON.stringify(myObj3);
+        localStorage.clear();
+        var MyList= new Array();
+        MyList[0]=myObj1;
+        MyList[1]=myObj2;
+        MyList[2]=myObj3;
+        MyList[3]=myObj4;
+        MyListS = JSON.stringify(MyList);
+        localStorage.setItem(0, MyListS );
+      
 
-localStorage.setItem(0,myObj1S);
-localStorage.setItem(1,myObj2S);
-localStorage.setItem(2,myObj3S);
-
-*/
-//Tabela ze wszystkich elementów paragonu
-var table = document.getElementById("myTable");
-var suma=0;
-var Zakupy = new Array();
-
-for(let i=0;i<localStorage.length;i++){
-    const key = localStorage.key(i);
-    let ObjD = JSON.parse(localStorage.getItem(key));
-    var row = table.insertRow(i+1);
-    var LP =   row.insertCell(0); 
-    var Name = row.insertCell(1);
-    var Count = row.insertCell(2);
-    var Prize = row.insertCell(3);
-    var Sum = row.insertCell(4);
-    ObjD.sum = ObjD.prize*ObjD.count;
-    LP.innerHTML = i;
-    ObjD.LP=i;
-    Name.innerHTML = ObjD.name;
-    Count.innerHTML = ObjD.count;
-    Prize.innerHTML = ObjD.prize;
-    Sum.innerHTML = ObjD.sum;
-    suma+=ObjD.sum;
-    Zakupy[i]=ObjD;
-}
-console.log(Zakupy);
+    }
 
 
-var Razem = document.getElementById("razem");
-Razem.innerHTML+=suma;
+    //Tabela ze wszystkich elementów paragonu
+    var table = document.getElementById("myTable");
+    var suma = 0;
+    var pom = 0;
+    var Razem = document.getElementById("razem");
+       var MyListD = JSON.parse(localStorage.getItem(0));
+    InicjalizacjaZLocalStorage();
+  //  Obiekty();
+   
+
+   
+    //Usuwanie
+    const DeleteButton = document.getElementById("UBtn");
+    const DeleteInsert = document.getElementById("UInsert");
+    DeleteButton.onclick = function () {
+        UsuńRekord(DeleteInsert.value);
+    };
+
+
+
 //var row2=table.deleteRow(2);
 
 
