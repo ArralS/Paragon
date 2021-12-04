@@ -4,7 +4,7 @@ table {
     width:100%
   }
   
-  td, th {
+  td, th , h2{
     border: 1px solid #dddddd;
     text-align: center;
     padding: 8px;
@@ -16,5 +16,9 @@ table {
   }
 
   button {
+    padding: 10px
+  }
+
+  legend {
     padding: 10px
   }
