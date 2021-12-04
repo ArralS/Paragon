@@ -70,33 +70,40 @@
     Suma += suma;
     Razem.innerHTML = Suma.toFixed(2);
     suma = 0;
-    console.log(MyListD);
+        console.log("Po pobraniu danych z local storage");
+      console.log(MyListD);
+      console.log(localStorage);
   }
 
-  function UsuńRekord(key) {
-    if (key > 0 && key <= MyListD.length) {
-      // Uusnięcie elementu z Zakupów
-      MyListD.splice(key - 1, 1);
-      // Nowa Suma
-      row2 = table.deleteRow(key);
-      for (var i = 0; i < MyListD.length; i++) {
-        suma += MyListD[i].sum;
-        MyListD[i].LP = i + 1;
-        var row = table.rows[i + 1];
-        var cel = row.cells[0];
+function UsuńRekord(key) {
 
-        cel.innerHTML = i + 1;
-      }
-      Razem.innerHTML = suma.toFixed(2);
+        if (key > 0 && key <= MyListD.length) {
+            // Uusnięcie elementu z Zakupów
+            MyListD.splice(key - 1, 1);
+            // Nowa Suma
+            row2 = table.deleteRow(key);
+            for (var i = 0; i < MyListD.length; i++) {
+                suma += MyListD[i].sum;
+                MyListD[i].LP = i + 1;
+                var row = table.rows[i + 1];
+                var cel = row.cells[0];
 
-      suma = 0;
-    } else {
+                cel.innerHTML = i + 1;
+            }
+            Razem.innerHTML = suma;
+
+            suma = 0;
+        }else {
       window.alert("Proszę wprowadzić prawidłowe dane");
     }
-    console.log(MyListD);
-    MyListS = JSON.stringify(MyListD);
-    localStorage.setItem(0, MyListS);
-  }
+       
+        MyListS = JSON.stringify(MyListD);
+        localStorage.setItem(0, MyListS);
+       console.log("Po usunięciu");
+      console.log(MyListD);
+      console.log(localStorage);
+
+    }
 
   function DodajRekord(nazwa, cena, ilosc) {
     if (nazwa && cena && ilosc && cena > 0 && ilosc > 0) {
@@ -123,9 +130,12 @@
     } else {
       window.alert("Proszę wprowadzić prawidłowe dane");
     }
-
+   
     MyListS = JSON.stringify(MyListD);
     localStorage.setItem(0, MyListS);
+     console.log("Po dodaniu");
+      console.log(MyListD);
+      console.log(localStorage);
   }
 
   function Obiekty() {
@@ -208,6 +218,9 @@
         Razem.innerHTML = parseFloat(Razem.innerHTML) + MyListD[wiersz - 1].sum;
       }
 
+         console.log("Po Edycji");
+      console.log(MyListD);
+      console.log(localStorage);
       MyListS = JSON.stringify(MyListD);
       localStorage.setItem(0, MyListS);
     } else {
@@ -224,7 +237,7 @@
   var ECInsert = document.getElementById("ECInsert");
   var EIInsert = document.getElementById("EIInsert");
   var MyListD = JSON.parse(localStorage.getItem(0));
-  Obiekty();
+  //Obiekty();
   InicjalizacjaZLocalStorage();
 
   // Usuwanie
