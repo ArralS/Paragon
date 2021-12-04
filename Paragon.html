@@ -70,40 +70,39 @@
     Suma += suma;
     Razem.innerHTML = Suma.toFixed(2);
     suma = 0;
-        console.log("Po pobraniu danych z local storage");
-      console.log(MyListD);
-      console.log(localStorage);
+    console.log("Po pobraniu danych z local storage");
+    console.log(MyListD);
+    console.log(localStorage);
   }
+  if (10 > 8) console.log("OK");
+  else console.log("XD");
+  function UsuńRekord(key) {
+    if (key > 0 && key <= MyListD.length) {
+      // Uusnięcie elementu z Zakupów
+      MyListD.splice(key - 1, 1);
+      // Nowa Suma
+      row2 = table.deleteRow(key);
+      for (var i = 0; i < MyListD.length; i++) {
+        suma += MyListD[i].sum;
+        MyListD[i].LP = i + 1;
+        var row = table.rows[i + 1];
+        var cel = row.cells[0];
 
-function UsuńRekord(key) {
+        cel.innerHTML = i + 1;
+      }
+      Razem.innerHTML = suma;
 
-        if (key > 0 && key <= MyListD.length) {
-            // Uusnięcie elementu z Zakupów
-            MyListD.splice(key - 1, 1);
-            // Nowa Suma
-            row2 = table.deleteRow(key);
-            for (var i = 0; i < MyListD.length; i++) {
-                suma += MyListD[i].sum;
-                MyListD[i].LP = i + 1;
-                var row = table.rows[i + 1];
-                var cel = row.cells[0];
-
-                cel.innerHTML = i + 1;
-            }
-            Razem.innerHTML = suma;
-
-            suma = 0;
-        }else {
+      suma = 0;
+    } else {
       window.alert("Proszę wprowadzić prawidłowe dane");
     }
-       
-        MyListS = JSON.stringify(MyListD);
-        localStorage.setItem(0, MyListS);
-       console.log("Po usunięciu");
-      console.log(MyListD);
-      console.log(localStorage);
 
-    }
+    MyListS = JSON.stringify(MyListD);
+    localStorage.setItem(0, MyListS);
+    console.log("Po usunięciu");
+    console.log(MyListD);
+    console.log(localStorage);
+  }
 
   function DodajRekord(nazwa, cena, ilosc) {
     if (nazwa && cena && ilosc && cena > 0 && ilosc > 0) {
@@ -118,7 +117,7 @@ function UsuńRekord(key) {
       Obj.name = nazwa;
       Obj.count = ilosc;
       Obj.prize = cena;
-      Obj.sum = (Math.round(cena * 100 * ilosc) / 100).toFixed(2);
+      Obj.sum = Math.round(cena * 100 * ilosc) / 100;
       MyListD[MyListD.length] = Obj;
       LP.innerHTML = MyListD[MyListD.length - 1].LP;
       Name.innerHTML = MyListD[MyListD.length - 1].name;
@@ -130,12 +129,12 @@ function UsuńRekord(key) {
     } else {
       window.alert("Proszę wprowadzić prawidłowe dane");
     }
-   
+
     MyListS = JSON.stringify(MyListD);
     localStorage.setItem(0, MyListS);
-     console.log("Po dodaniu");
-      console.log(MyListD);
-      console.log(localStorage);
+    console.log("Po dodaniu");
+    console.log(MyListD);
+    console.log(localStorage);
   }
 
   function Obiekty() {
@@ -218,7 +217,7 @@ function UsuńRekord(key) {
         Razem.innerHTML = parseFloat(Razem.innerHTML) + MyListD[wiersz - 1].sum;
       }
 
-         console.log("Po Edycji");
+      console.log("Po Edycji");
       console.log(MyListD);
       console.log(localStorage);
       MyListS = JSON.stringify(MyListD);
@@ -262,7 +261,6 @@ function UsuńRekord(key) {
       EditIInsert.value
     );
   };
-
   // Dodawanie Wiersza
   const AddButton = document.getElementById("IBtn");
   const AddNInsert = document.getElementById("INInsert");
@@ -295,12 +293,23 @@ function UsuńRekord(key) {
 
         x = rows[i].getElementsByTagName("td")[n];
         y = rows[i + 1].getElementsByTagName("td")[n];
-        if (sort == "ros") {
+        if (sort == "ros" && parseFloat(x.innerHTML) != "NaN") {
+          if (parseFloat(x.innerHTML) > parseFloat(y.innerHTML)) {
+            shouldSwitch = true;
+            break;
+          }
+        } else if (sort == "mal" && parseFloat(x.innerHTML) != "NaN") {
+          if (parseFloat(x.innerHTML) < parseFloat(y.innerHTML)) {
+            shouldSwitch = true;
+            break;
+          }
+        }
+        if (sort == "ros" && n == 1) {
           if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
             shouldSwitch = true;
             break;
           }
-        } else if (sort == "mal") {
+        } else if (sort == "mal" && n == 1) {
           if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
             shouldSwitch = true;
             break;
