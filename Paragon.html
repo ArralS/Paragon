@@ -1,280 +1,307 @@
 <title>Paragon</title>
-<style media="screen">
-
-</style>
+<style media="screen"></style>
+<link rel="stylesheet" href="ParagonCSS.css" />
 
 <body>
-    <h2 id="title">Paragon</h2>
-    <fieldset>
-        <legend>Lista Zakupów</legend>
+  <h2 id="title">Paragon</h2>
+  <fieldset>
+    <legend>Lista Zakupów</legend>
 
+    <table id="myTable">
+      <tr>
+        <th onclick="sortTable(0)">LP</th>
+        <th onclick="sortTable(1)">Nazwa</th>
+        <th onclick="sortTable(2)">Ilość</th>
+        <th onclick="sortTable(3)">Cena</th>
+        <th onclick="sortTable(4)">Suma</th>
+      </tr>
 
-        <table id="myTable">
-            <tr>
-                <th>LP</th>
-                <th>Nazwa</th>
-                <th>Ilość</th>
-                <th>Cena</th>
-                <th>Suma</th>
-            </tr>
-
-            <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th>Razem</th>
-                <th id="razem"></th>
-            </tr>
-        </table>
-    </fieldset>
-    <fieldset>
-        <legend>Który Wiersz Chcesz Usunąć?</legend>
-        <input id="UInsert" type="text" placeholder="Numer Wiersza">
-        <button id="UBtn" type="button">Usuń</button>
-    </fieldset>
-    <fieldset>
-        <legend>Który Wiersz Chcesz Edytować?</legend>
-        <p><input id="EWInsert" type="text" placeholder="Numer Wiersza"> </p>
-        <p><input id="ENInsert" type="text" placeholder="Nazwa"></p>
-        <p><input id="EIInsert" type="text" placeholder="Ilość"></p>
-        <p><input id="ECInsert" type="text" placeholder="Cena"></p>
-        <button id="EEBtn" type="button">Edytuj</button>
-
-    </fieldset>
-    <fieldset>
-        <legend>Jaki Wiersz Chcesz Dodać?</legend>
-        <p><input id="INInsert" type="text" placeholder="Nazwa"></p>
-        <p><input id="IIInsert" type="text" placeholder="Ilość"></p>
-        <p><input id="ICInsert" type="text" placeholder="Cena"></p>
-        <button id="IBtn" type="button">Dodaj</button>
-
-    </fieldset>
-
-
+      <tr id="r">
+        <th></th>
+        <th></th>
+        <th></th>
+        <th>Razem</th>
+        <th id="razem"></th>
+      </tr>
+    </table>
+  </fieldset>
+  <fieldset>
+    <legend>Który Wiersz Chcesz Usunąć?</legend>
+    <input id="UInsert" type="text" placeholder="Numer Wiersza" />
+    <button id="UBtn" type="button">Usuń</button>
+  </fieldset>
+  <fieldset>
+    <legend>Który Wiersz Chcesz Edytować?</legend>
+    <p><input id="EWInsert" type="text" placeholder="Numer Wiersza" /></p>
+    <p><input id="ENInsert" type="text" placeholder="Nazwa" /></p>
+    <p><input id="EIInsert" type="text" placeholder="Ilość" /></p>
+    <p><input id="ECInsert" type="text" placeholder="Cena" /></p>
+    <button id="EEBtn" type="button">Edytuj</button>
+  </fieldset>
+  <fieldset>
+    <legend>Jaki Wiersz Chcesz Dodać?</legend>
+    <p><input id="INInsert" type="text" placeholder="Nazwa" /></p>
+    <p><input id="IIInsert" type="text" placeholder="Ilość" /></p>
+    <p><input id="ICInsert" type="text" placeholder="Cena" /></p>
+    <button id="IBtn" type="button">Dodaj</button>
+  </fieldset>
 </body>
 
 <script>
+  function InicjalizacjaZLocalStorage() {
+    for (let i = 0; i < MyListD.length; i++) {
+      var row = table.insertRow(i + 1);
+      var LP = row.insertCell(0);
+      var Name = row.insertCell(1);
+      var Count = row.insertCell(2);
+      var Prize = row.insertCell(3);
+      var Sum = row.insertCell(4);
+      MyListD[i].sum =
+        Math.round(MyListD[i].prize * 100 * MyListD[i].count) / 100;
+      MyListD[i].LP = i + 1;
+      LP.innerHTML = MyListD[i].LP;
+      Name.innerHTML = MyListD[i].name;
+      Count.innerHTML = MyListD[i].count;
+      Prize.innerHTML = MyListD[i].prize;
+      Sum.innerHTML = MyListD[i].sum;
+      suma += MyListD[i].sum;
+    }
+    let Suma = 0;
+    Suma += suma;
+    Razem.innerHTML = Suma.toFixed(2);
+    suma = 0;
+    console.log(MyListD);
+  }
 
-    function InicjalizacjaZLocalStorage() {
+  function UsuńRekord(key) {
+    if (key > 0 && key <= MyListD.length) {
+      // Uusnięcie elementu z Zakupów
+      MyListD.splice(key - 1, 1);
+      // Nowa Suma
+      row2 = table.deleteRow(key);
+      for (var i = 0; i < MyListD.length; i++) {
+        suma += MyListD[i].sum;
+        MyListD[i].LP = i + 1;
+        var row = table.rows[i + 1];
+        var cel = row.cells[0];
 
+        cel.innerHTML = i + 1;
+      }
+      Razem.innerHTML = suma.toFixed(2);
 
-        for (let i = 0; i < MyListD.length; i++) {
-            var row = table.insertRow(i + 1);
-            var LP = row.insertCell(0);
-            var Name = row.insertCell(1);
-            var Count = row.insertCell(2);
-            var Prize = row.insertCell(3);
-            var Sum = row.insertCell(4);
-            MyListD[i].sum = MyListD[i].prize * MyListD[i].count;
-            MyListD[i].LP = i + 1;
-            LP.innerHTML = MyListD[i].LP;
-            Name.innerHTML = MyListD[i].name;
-            Count.innerHTML = MyListD[i].count;
-            Prize.innerHTML = MyListD[i].prize;
-            Sum.innerHTML = MyListD[i].sum;
-            suma += MyListD[i].sum;
+      suma = 0;
+    } else {
+      window.alert("Proszę wprowadzić prawidłowe dane");
+    }
+    console.log(MyListD);
+    MyListS = JSON.stringify(MyListD);
+    localStorage.setItem(0, MyListS);
+  }
 
+  function DodajRekord(nazwa, cena, ilosc) {
+    if (nazwa && cena && ilosc && cena > 0 && ilosc > 0) {
+      var row = table.insertRow(MyListD.length + 1);
+      var LP = row.insertCell(0);
+      var Name = row.insertCell(1);
+      var Count = row.insertCell(2);
+      var Prize = row.insertCell(3);
+      var Sum = row.insertCell(4);
+      var Obj = new Object();
+      Obj.LP = MyListD.length + 1;
+      Obj.name = nazwa;
+      Obj.count = ilosc;
+      Obj.prize = cena;
+      Obj.sum = (Math.round(cena * 100 * ilosc) / 100).toFixed(2);
+      MyListD[MyListD.length] = Obj;
+      LP.innerHTML = MyListD[MyListD.length - 1].LP;
+      Name.innerHTML = MyListD[MyListD.length - 1].name;
+      Count.innerHTML = MyListD[MyListD.length - 1].count;
+      Prize.innerHTML = MyListD[MyListD.length - 1].prize;
+      Sum.innerHTML = MyListD[MyListD.length - 1].sum;
 
-
-        }
-        Razem.innerHTML += suma;
-        suma = 0;
-        console.log(MyListD);
-
+      Razem.innerHTML = (parseFloat(Razem.innerHTML) + cena * ilosc).toFixed(2);
+    } else {
+      window.alert("Proszę wprowadzić prawidłowe dane");
     }
 
-    function UsuńRekord(key) {
+    MyListS = JSON.stringify(MyListD);
+    localStorage.setItem(0, MyListS);
+  }
 
-        if (key > 0 && key <= MyListD.length) {
-            // Uusnięcie elementu z Zakupów
-            MyListD.splice(key - 1, 1);
-            // Nowa Suma
-            row2 = table.deleteRow(key);
-            for (var i = 0; i < MyListD.length; i++) {
-                suma += MyListD[i].sum;
-                MyListD[i].LP = i + 1;
-                var row = table.rows[i + 1];
-                var cel = row.cells[0];
-
-                cel.innerHTML = i + 1;
-            }
-            Razem.innerHTML = suma;
-
-            suma = 0;
-        }
-        console.log(MyListD);
-        MyListS = JSON.stringify(MyListD);
-        localStorage.setItem(0, MyListS);
-
-    }
-
-    function DodajRekord(nazwa, cena, ilosc) {
-        if (nazwa && cena && ilosc && cena > 0 && ilosc > 0) {
-            var row = table.insertRow(MyListD.length + 1);
-            var LP = row.insertCell(0);
-            var Name = row.insertCell(1);
-            var Count = row.insertCell(2);
-            var Prize = row.insertCell(3);
-            var Sum = row.insertCell(4);
-            var Obj = new Object();
-            Obj.LP = MyListD.length + 1;
-            Obj.name = nazwa;
-            Obj.count = ilosc;
-            Obj.prize = cena;
-            Obj.sum = cena * ilosc;
-            MyListD[MyListD.length] = Obj;
-            LP.innerHTML = MyListD[MyListD.length - 1].LP;
-            Name.innerHTML = MyListD[MyListD.length - 1].name;
-            Count.innerHTML = MyListD[MyListD.length - 1].count;
-            Prize.innerHTML = MyListD[MyListD.length - 1].prize;
-            Sum.innerHTML = MyListD[MyListD.length - 1].sum;
-
-            Razem.innerHTML = parseFloat(Razem.innerHTML) + cena * ilosc;
-        }
-
-        MyListS = JSON.stringify(MyListD);
-        localStorage.setItem(0, MyListS);
-
-
-    }
-
-    function Obiekty() {
-        let myObj1 = {
-            LP: 0,
-            name: "Chipsy",
-            count: 3,
-            prize: 2,
-            sum: 0
-        };
-
-        let myObj2 = {
-            LP: 0,
-            name: "Cola",
-            count: 1,
-            prize: 1,
-            sum: 0
-        };
-
-        let myObj3 = {
-            LP: 0,
-            name: "Bread",
-            count: 2,
-            prize: 4,
-            sum: 0
-        };
-
-        let myObj4 = {
-            LP: 0,
-            name: "Frytki",
-            count: 2,
-            prize: 3,
-            sum: 0
-        };
-
-
-        localStorage.clear();
-        var MyList = new Array();
-        MyList[0] = myObj1;
-        MyList[1] = myObj2;
-        MyList[2] = myObj3;
-        MyList[3] = myObj4;
-        MyListS = JSON.stringify(MyList);
-        localStorage.setItem(0, MyListS);
-
-
-    }
-
-    function EdytujRekord(wiersz, nazwa, cena, ilosc) {
-
-        if (wiersz > 0 && wiersz <= MyListD.length) {
-
-
-            wiersz = parseInt(wiersz);
-            var row = table.rows[wiersz];
-
-            if (nazwa) {
-                var cel1 = row.cells[1];
-                cel1.innerHTML = nazwa;
-                MyListD[wiersz - 1].name = nazwa;
-            }
-
-            if ((cena && cena > 0) || (ilosc && ilosc > 0)) {
-               
-                Razem.innerHTML = parseFloat(Razem.innerHTML) - MyListD[wiersz - 1].prize * MyListD[wiersz - 1].count;
-             
-
-            }
-
-            if (ilosc && ilosc > 0) {
-                var cel2 = row.cells[2];
-                cel2.innerHTML = ilosc;
-                MyListD[wiersz - 1].count = ilosc;
-            }
-
-
-            if (cena && cena > 0) {
-                var cel3 = row.cells[3];
-                cel3.innerHTML = cena;
-                MyListD[wiersz - 1].prize = cena;
-            }
-
-            if ((cena && cena > 0) || (ilosc && ilosc > 0)) {
-                var cel4 = row.cells[4];
-                cel4.innerHTML = MyListD[wiersz - 1].prize * MyListD[wiersz - 1].count;
-                MyListD[wiersz - 1].sum = MyListD[wiersz - 1].prize * MyListD[wiersz - 1].count;
-                Razem.innerHTML = parseFloat(Razem.innerHTML) +  MyListD[wiersz - 1].sum;
-
-            }
-
-
-    
-
-
-            MyListS = JSON.stringify(MyListD);
-            localStorage.setItem(0, MyListS);
-        }
-
-    }
-
-    //Tabela ze wszystkich elementów paragonu
-    var table = document.getElementById("myTable");
-    var suma = 0;
-    var pom = 0;
-    var Razem = document.getElementById("razem");
-    var ENInsert = document.getElementById("ENInsert");
-    var ECInsert = document.getElementById("ECInsert");
-    var EIInsert = document.getElementById("EIInsert");
-    var MyListD = JSON.parse(localStorage.getItem(0));
-    Obiekty();
-    InicjalizacjaZLocalStorage();
-
-    // Usuwanie
-    const DeleteButton = document.getElementById("UBtn");
-    const DeleteInsert = document.getElementById("UInsert");
-    DeleteButton.onclick = function () {
-        UsuńRekord(DeleteInsert.value);
+  function Obiekty() {
+    let myObj1 = {
+      LP: 0,
+      name: "Chipsy",
+      count: 3,
+      prize: 2,
+      sum: 0,
     };
 
-    // Edycja Wiersza
-    const EditButton = document.getElementById("EEBtn");
-    const EditWInsert = document.getElementById("EWInsert");
-    const EditNInsert = document.getElementById("ENInsert");
-    const EditCInsert = document.getElementById("ECInsert");
-    const EditIInsert = document.getElementById("EIInsert");
-
-    EditButton.onclick = function () {
-        EdytujRekord(EditWInsert.value, EditNInsert.value, EditCInsert.value, EditIInsert.value);
+    let myObj2 = {
+      LP: 0,
+      name: "Cola",
+      count: 1,
+      prize: 1,
+      sum: 0,
     };
 
-
-    // Dodawanie Wiersza
-    const AddButton = document.getElementById("IBtn");
-    const AddNInsert = document.getElementById("INInsert");
-    const AddCInsert = document.getElementById("ICInsert");
-    const AddIInsert = document.getElementById("IIInsert");
-
-    AddButton.onclick = function () {
-        DodajRekord(AddNInsert.value, AddCInsert.value, AddIInsert.value);
+    let myObj3 = {
+      LP: 0,
+      name: "Bread",
+      count: 2,
+      prize: 4,
+      sum: 0,
     };
 
+    let myObj4 = {
+      LP: 0,
+      name: "Frytki",
+      count: 2,
+      prize: 3,
+      sum: 0,
+    };
+
+    localStorage.clear();
+    var MyList = new Array();
+    MyList[0] = myObj1;
+    MyList[1] = myObj2;
+    MyList[2] = myObj3;
+    MyList[3] = myObj4;
+    MyListS = JSON.stringify(MyList);
+    localStorage.setItem(0, MyListS);
+  }
+
+  function EdytujRekord(wiersz, nazwa, cena, ilosc) {
+    if (wiersz > 0 && wiersz <= MyListD.length) {
+      wiersz = parseInt(wiersz);
+      var row = table.rows[wiersz];
+
+      if (nazwa) {
+        var cel1 = row.cells[1];
+        cel1.innerHTML = nazwa;
+        MyListD[wiersz - 1].name = nazwa;
+      }
+
+      if ((cena && cena > 0) || (ilosc && ilosc > 0)) {
+        Razem.innerHTML =
+          parseFloat(Razem.innerHTML) -
+          MyListD[wiersz - 1].prize * MyListD[wiersz - 1].count;
+      }
+
+      if (ilosc && ilosc > 0) {
+        var cel2 = row.cells[2];
+        cel2.innerHTML = ilosc;
+        MyListD[wiersz - 1].count = ilosc;
+      }
+
+      if (cena && cena > 0) {
+        var cel3 = row.cells[3];
+        cel3.innerHTML = cena;
+        MyListD[wiersz - 1].prize = cena;
+      }
+
+      if ((cena && cena > 0) || (ilosc && ilosc > 0)) {
+        var cel4 = row.cells[4];
+        cel4.innerHTML = MyListD[wiersz - 1].prize * MyListD[wiersz - 1].count;
+        MyListD[wiersz - 1].sum =
+          MyListD[wiersz - 1].prize * MyListD[wiersz - 1].count;
+        Razem.innerHTML = parseFloat(Razem.innerHTML) + MyListD[wiersz - 1].sum;
+      }
+
+      MyListS = JSON.stringify(MyListD);
+      localStorage.setItem(0, MyListS);
+    } else {
+      window.alert("Proszę wprowadzić prawidłowe dane");
+    }
+  }
+
+  //Tabela ze wszystkich elementów paragonu
+  var table = document.getElementById("myTable");
+  var suma = 0;
+  var pom = 0;
+  var Razem = document.getElementById("razem");
+  var ENInsert = document.getElementById("ENInsert");
+  var ECInsert = document.getElementById("ECInsert");
+  var EIInsert = document.getElementById("EIInsert");
+  var MyListD = JSON.parse(localStorage.getItem(0));
+  Obiekty();
+  InicjalizacjaZLocalStorage();
+
+  // Usuwanie
+  const DeleteButton = document.getElementById("UBtn");
+  const DeleteInsert = document.getElementById("UInsert");
+  DeleteButton.onclick = function () {
+    UsuńRekord(DeleteInsert.value);
+  };
+
+  // Edycja Wiersza
+  const EditButton = document.getElementById("EEBtn");
+  const EditWInsert = document.getElementById("EWInsert");
+  const EditNInsert = document.getElementById("ENInsert");
+  const EditCInsert = document.getElementById("ECInsert");
+  const EditIInsert = document.getElementById("EIInsert");
+
+  EditButton.onclick = function () {
+    EdytujRekord(
+      EditWInsert.value,
+      EditNInsert.value,
+      EditCInsert.value,
+      EditIInsert.value
+    );
+  };
+
+  // Dodawanie Wiersza
+  const AddButton = document.getElementById("IBtn");
+  const AddNInsert = document.getElementById("INInsert");
+  const AddCInsert = document.getElementById("ICInsert");
+  const AddIInsert = document.getElementById("IIInsert");
+
+  AddButton.onclick = function () {
+    DodajRekord(AddNInsert.value, AddCInsert.value, AddIInsert.value);
+  };
+
+  function sortTable(n) {
+    var table,
+      rows,
+      switching,
+      i,
+      x,
+      y,
+      shouldSwitch,
+      sort,
+      switchcount = 0;
+    table = document.getElementById("myTable");
+    switching = true;
+    //sortowanie rosnące
+    sort = "ros";
+    while (switching) {
+      switching = false;
+      rows = table.rows;
+      for (i = 1; i < rows.length - 2; i++) {
+        shouldSwitch = false;
+
+        x = rows[i].getElementsByTagName("td")[n];
+        y = rows[i + 1].getElementsByTagName("td")[n];
+        if (sort == "ros") {
+          if (x.innerHTML.toLowerCase() > y.innerHTML.toLowerCase()) {
+            shouldSwitch = true;
+            break;
+          }
+        } else if (sort == "mal") {
+          if (x.innerHTML.toLowerCase() < y.innerHTML.toLowerCase()) {
+            shouldSwitch = true;
+            break;
+          }
+        }
+      }
+      if (shouldSwitch) {
+        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+        switching = true;
+        switchcount++;
+      } else if (switchcount == 0 && sort == "ros") {
+        sort = "mal";
+        switching = true;
+      }
+    }
+  }
 </script>
